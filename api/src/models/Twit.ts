@@ -32,11 +32,11 @@ const TwitModel = new Schema<ITwit>(
       },
     ],
   },
-  {
-    toJSON: {
-      virtuals: true,
-    },
-  }
+  // {
+  //   toJSON: {
+  //     virtuals: true,
+  //   },
+  // }
 );
 
 TwitModel.virtual("likesCount").get(function (this: ITwit) {

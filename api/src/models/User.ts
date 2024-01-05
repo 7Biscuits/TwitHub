@@ -11,7 +11,7 @@ const UserModel: Schema = new Schema<IUser>({
 
   password: {
     type: String,
-    required: true,
+    required: false,
   },
 
   googleId: {
