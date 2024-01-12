@@ -1,6 +1,8 @@
 import passport from "passport";
 import { Strategy } from "passport-google-oauth20";
+import User from "../../models/User";
 import { configDotenv } from "dotenv";
+import { IUser } from "../../interfaces/IUser";
 
 configDotenv();
 
@@ -26,7 +28,8 @@ export function initGoogle(): void {
     done(null, user);
   });
 
-  passport.deserializeUser(function (user, done): void {
-    done(null, user as any);
+  passport.deserializeUser((id, done) => {
+    const user = User.findById(id);
+    if (user) done(null, user);
   });
 }

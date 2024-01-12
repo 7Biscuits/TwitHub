@@ -30,29 +30,30 @@ googleCallback.get(
           return res.redirect("/login");
         }
 
-        // const session = req.session as any;
-        // session.email = user.emails[0].value;
-        // session.userId = user.id;
-        // session.displayName = user.displayName;
+        req.login(user, (err): void => {
+          if (err) return err;
+          res.cookie("email", user.emails[0].value, {
+            maxAge: 600000,
+            secure: false,
+            sameSite: false,
+          });
+        });
 
-        const cookieOptions = {
-          maxAge: 600000,
-          secure: false,
-          sameSite: false,
-        };
-
-        res.cookie("email", user.emails[0].value, cookieOptions);
         handleCallback(res, user.emails[0].value, user.id, user.displayName);
       });
     } catch (err) {
       console.error("Authentication callback error:", err);
-      res.redirect("/login");
+      res.json({ message: "Authentication error", error: err });
     }
   }
 );
 
-googleCallback.get("/auth/google/success", isAuthenticated, (req: Request, res: Response): void => {
-  res.send(`User authorized, ${req.cookies.email}`);
-});
+googleCallback.get(
+  "/auth/google/success",
+  isAuthenticated,
+  (req: Request, res: Response): void => {
+    res.json({ message: "User authorized", email: req.cookies.email });
+  }
+);
 
 export { googleCallback };

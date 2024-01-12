@@ -7,13 +7,23 @@ export async function handleCallback(
   id: string,
   name: string
 ): Promise<void> {
-  const user = User.findOne({ email: email });
-  if (await user) return res.redirect("/auth/google/success");
+  const user = await User.findOne({ email: email });
+
+  if (user) {
+    if (user?.source != "google") {
+      res.redirect("/login");
+      console.log("Different source of authentication");
+      return;
+    }
+    res.redirect("/auth/google/success");
+    return;
+  }
 
   const newUser = new User({
     email: email,
     googleId: id,
     name: name,
+    source: "google",
   });
 
   newUser.save();

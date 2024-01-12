@@ -18,6 +18,6 @@ authRouter.use(
     secret: `${process.env.SECRET}`,
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false, maxAge: 600000 },
+    cookie: { secure: false, sameSite: false, maxAge: 600000 },
   })
 );

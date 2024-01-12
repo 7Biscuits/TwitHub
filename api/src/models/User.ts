@@ -14,9 +14,14 @@ const UserModel: Schema = new Schema<IUser>({
     required: false,
   },
 
-  googleId: {
+  source: {
     type: String,
     required: true,
+  },
+
+  googleId: {
+    type: String,
+    required: false,
   },
 
   name: {
@@ -55,8 +60,16 @@ const UserModel: Schema = new Schema<IUser>({
   ],
 });
 
+UserModel.virtual("FollowerCount").get(function (): number {
+  return this.followers.length;
+});
+
+UserModel.virtual("FollowingCount").get(function (): number {
+  return this.following.length;
+});
+
 UserModel.virtual("TwitCount").get(function (): number {
-  return this.Twits.length;
+  return this.twits.length;
 });
 
 export default model<IUser>("User", UserModel);

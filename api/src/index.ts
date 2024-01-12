@@ -29,8 +29,15 @@ app.use(
 app.use(cookieParser());
 app.use(json(), urlencoded({ extended: true }));
 app.use(cors());
+
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(session({
+  secret: `${process.env.SECRET}`,
+  resave: true,
+  saveUninitialized: true,
+}));
 
 app.get("/", (_: Request, res: Response): void => {
   res.status(200).send("Welcome to TwitHub API");
