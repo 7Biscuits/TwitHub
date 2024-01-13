@@ -2,11 +2,10 @@ import passport from "passport";
 import { Strategy } from "passport-google-oauth20";
 import User from "../../models/User";
 import { configDotenv } from "dotenv";
-import { IUser } from "../../interfaces/IUser";
 
 configDotenv();
 
-export function initGoogle(): void {
+export const initGoogle = (): void => {
   passport.use(
     new Strategy(
       {
@@ -24,11 +23,11 @@ export function initGoogle(): void {
     )
   );
 
-  passport.serializeUser(function (user, done): void {
+  passport.serializeUser((user, done): void => {
     done(null, user);
   });
 
-  passport.deserializeUser((id, done) => {
+  passport.deserializeUser((id, done): void => {
     const user = User.findById(id);
     if (user) done(null, user);
   });

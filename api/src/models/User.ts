@@ -32,10 +32,12 @@ const UserModel: Schema = new Schema<IUser>({
   bio: {
     type: String,
     trim: true,
+    required: false,
   },
 
   profilePicture: {
     type: String,
+    required: false,
   },
 
   followers: [

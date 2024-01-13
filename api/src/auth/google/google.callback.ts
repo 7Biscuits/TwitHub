@@ -21,7 +21,7 @@ googleCallback.get(
 googleCallback.get(
   "/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/login" }),
-  async function (req, res): Promise<void> {
+  async (req: Request, res: Response): Promise<void> => {
     try {
       const user = req.user as any;
       req.session.regenerate(function (err): void {
